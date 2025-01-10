@@ -14,13 +14,8 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd dob
-   ```
 
-2. Build and install the package:
+1. Build and install the package:
    ```bash
    python3 setup.py sdist bdist_wheel
    pip install dist/dob_cli-1.0.0-py3-none-any.whl
