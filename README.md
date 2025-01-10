@@ -17,7 +17,7 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 
 1. Build and install the package:
    ```bash
-   python3 setup.py sdist bdist_wheel
+   git clone
    pip install dist/dob_cli-1.0.0-py3-none-any.whl
    ```
 
