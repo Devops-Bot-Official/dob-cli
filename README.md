@@ -108,14 +108,14 @@ This guide explains how to uninstall the `dob-cli` package and clean up residual
 
 ---
 
-## Steps to Uninstall DevOps Bot
+## Steps to Uninstall Dob Cli
 
 ### 1. Uninstall the `dob-cli` Package
 
 Run the following command to uninstall the `dob-cli` package using `pip3`:
 
 ```bash
-pip3 uninstall -y devops-bot
+pip3 uninstall -y dob-cli
 ```
 
 This command removes the package from your Python environment.
