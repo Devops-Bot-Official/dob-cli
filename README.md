@@ -85,8 +85,8 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    install_package "pip3" "python3-pip"
 
    # Step 3: Download the .whl file
-   WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/devops_bot-0.1-py3-none-any.whl"
-   WHL_FILE="devops_bot-0.1-py3-none-any.whl"
+   WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/dob_cli-0.1-py3-none-any.whl"
+   WHL_FILE="dob_cli-0.1-py3-none-any.whl"
 
    show_stage "Downloading the package..."
    wget -q "$WHL_URL" -O "$WHL_FILE"
@@ -104,15 +104,15 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 ---
 # Uninstalling DevOps Bot
 
-This guide explains how to uninstall the `devops-bot` package and clean up residual files.
+This guide explains how to uninstall the `dob-cli` package and clean up residual files.
 
 ---
 
 ## Steps to Uninstall DevOps Bot
 
-### 1. Uninstall the `devops-bot` Package
+### 1. Uninstall the `dob-cli` Package
 
-Run the following command to uninstall the `devops-bot` package using `pip3`:
+Run the following command to uninstall the `dob-cli` package using `pip3`:
 
 ```bash
 pip3 uninstall -y devops-bot
@@ -124,14 +124,14 @@ This command removes the package from your Python environment.
 
 ### 2. Remove Residual Files
 
-The `devops-bot` package creates additional files and directories during installation and execution. You should clean them up to fully remove the application.
+The `dob-cli` package creates additional files and directories during installation and execution. You should clean them up to fully remove the application.
 
 #### Check the Default Directory
 
 The default directory for the `devops-bot` files is:
 
 ```plaintext
-/etc/devops-bot
+/etc/dob-cli
 ```
 
 #### Delete the Directory
@@ -139,7 +139,7 @@ The default directory for the `devops-bot` files is:
 Run the following command to remove the directory:
 
 ```bash
-sudo rm -rf /etc/devops-bot
+sudo rm -rf /etc/dob-cli
 ```
 
 This command permanently deletes all files and configurations related to `devops-bot`.
@@ -152,13 +152,13 @@ To ensure all components are removed:
 
 1. Check for any remaining files:
    ```bash
-   ls /etc | grep devops-bot
+   ls /etc | grep dob-cli
    ```
    If nothing is listed, all files have been successfully removed.
 
 2. Verify `pip3` no longer lists the package:
    ```bash
-   pip3 list | grep devops-bot
+   pip3 list | grep dob-cli
    ```
    If nothing is listed, the package has been completely uninstalled.
 
