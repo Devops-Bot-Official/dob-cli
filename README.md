@@ -12,15 +12,157 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 2. Pip (Python package manager)
 3. An operational host server with the DOB service running.
 
-## Installation
+# **DevOps Bot Installation**
 
+## **Installation**
 
-1. Build and install the package:
+### **Steps to Install**
+
+1. **Create the Installation Script**:
+   Copy the following script and save it as `install_devops_bot.sh` on your system:
+
    ```bash
-   git clone https://github.com/Devops-Bot-Official/dob-cli.git
-   pip install dist/dob_cli-1.0.0-py3-none-any.whl
-   ```
+   #!/bin/bash
 
+   # Exit immediately if any command fails
+   set -e
+
+   # Function to display a stage
+   function show_stage() {
+     echo -e "\n\033[1;32m>>> $1\033[0m"
+   }
+
+   # Function to install a package
+   function install_package() {
+     if ! command -v "$1" &>/dev/null; then
+       show_stage "Installing $1..."
+       if [ "$PACKAGE_MANAGER" == "apt-get" ]; then
+         apt-get install -y "$2"
+       elif [ "$PACKAGE_MANAGER" == "yum" ] || [ "$PACKAGE_MANAGER" == "dnf" ]; then
+         $PACKAGE_MANAGER install -y "$2"
+       else
+         echo "Unsupported package manager."
+         exit 1
+       fi
+     else
+       echo "$1 is already installed."
+     fi
+   }
+
+   # Step 1: Detect the operating system and package manager
+   show_stage "Checking operating system..."
+   if [ -f "/etc/debian_version" ]; then
+     PACKAGE_MANAGER="apt-get"
+     update_command="apt-get update -y"
+   elif [ -f "/etc/os-release" ]; then
+     . /etc/os-release
+     if [[ "$ID" == "amzn" ]]; then
+       # Amazon Linux
+       PACKAGE_MANAGER="yum"
+       update_command="yum update -y"
+     elif [[ "$ID_LIKE" == *"rhel"* ]] || [[ "$ID" == "centos" ]] || [[ "$ID" == "fedora" ]]; then
+       # RHEL-based distributions
+       if command -v dnf &>/dev/null; then
+         PACKAGE_MANAGER="dnf"
+         update_command="dnf update -y"
+       else
+         PACKAGE_MANAGER="yum"
+         update_command="yum update -y"
+       fi
+     else
+       echo "Unsupported operating system."
+       exit 1
+     fi
+   else
+     echo "Unsupported operating system."
+     exit 1
+   fi
+
+   # Step 2: Update and install prerequisites
+   show_stage "Updating package list and installing prerequisites..."
+   eval "$update_command"
+   install_package "wget" "wget"
+   install_package "pip3" "python3-pip"
+
+   # Step 3: Download the .whl file
+   WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/DOB-Installation-Package/master/devops_bot-0.1-py3-none-any.whl"
+   WHL_FILE="devops_bot-0.1-py3-none-any.whl"
+
+   show_stage "Downloading the package..."
+   wget -q "$WHL_URL" -O "$WHL_FILE"
+
+   # Step 4: Install the package
+   show_stage "Installing the package..."
+   pip3 install "$WHL_FILE"
+
+   # Step 5: Clean up
+   show_stage "Cleaning up..."
+   rm -f "$WHL_FILE"
+
+   # Final message
+   show_stage "Installation complete!"
+---
+# Uninstalling DevOps Bot
+
+This guide explains how to uninstall the `devops-bot` package and clean up residual files.
+
+---
+
+## Steps to Uninstall DevOps Bot
+
+### 1. Uninstall the `devops-bot` Package
+
+Run the following command to uninstall the `devops-bot` package using `pip3`:
+
+```bash
+pip3 uninstall -y devops-bot
+```
+
+This command removes the package from your Python environment.
+
+---
+
+### 2. Remove Residual Files
+
+The `devops-bot` package creates additional files and directories during installation and execution. You should clean them up to fully remove the application.
+
+#### Check the Default Directory
+
+The default directory for the `devops-bot` files is:
+
+```plaintext
+/etc/devops-bot
+```
+
+#### Delete the Directory
+
+Run the following command to remove the directory:
+
+```bash
+sudo rm -rf /etc/devops-bot
+```
+
+This command permanently deletes all files and configurations related to `devops-bot`.
+
+---
+
+### 3. Verify the Cleanup
+
+To ensure all components are removed:
+
+1. Check for any remaining files:
+   ```bash
+   ls /etc | grep devops-bot
+   ```
+   If nothing is listed, all files have been successfully removed.
+
+2. Verify `pip3` no longer lists the package:
+   ```bash
+   pip3 list | grep devops-bot
+   ```
+   If nothing is listed, the package has been completely uninstalled.
+
+---
 ## Usage
 
 ### 1. Configuring DOB CLI
