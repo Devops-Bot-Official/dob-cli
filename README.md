@@ -12,7 +12,7 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 2. Pip (Python package manager)
 3. An operational host server with the DOB service running.
 
-# **DevOps Bot Installation**
+# **DOB Cli Installation**
 
 ## **Installation**
 
