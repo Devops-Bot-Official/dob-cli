@@ -102,7 +102,7 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    # Final message
    show_stage "Installation complete!"
 ---
-# Uninstalling DevOps Bot
+# Uninstalling Dob Cli
 
 This guide explains how to uninstall the `dob-cli` package and clean up residual files.
 
