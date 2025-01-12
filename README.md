@@ -85,7 +85,7 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    install_package "pip3" "python3-pip"
 
    # Step 3: Download the .whl file
-   WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/DOB-Installation-Package/master/devops_bot-0.1-py3-none-any.whl"
+   WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/devops_bot-0.1-py3-none-any.whl"
    WHL_FILE="devops_bot-0.1-py3-none-any.whl"
 
    show_stage "Downloading the package..."
