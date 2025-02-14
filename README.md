@@ -12,11 +12,15 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 2. Pip (Python package manager)
 3. An operational host server with the DOB service running.
 
+---
+
 # **DOB CLI Installation**
 
 ## **Installation**
 
 ### **🔹 Linux Installation**
+
+#### **✅ Fully Automated Installation**
 
 1. **Create the Installation Script**:
    Copy the following script and save it as `install_devops_bot.sh` on your system:
@@ -24,15 +28,12 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    ```bash
    #!/bin/bash
 
-   # Exit immediately if any command fails
    set -e
 
-   # Function to display a stage
    function show_stage() {
      echo -e "\n\033[1;32m>>> $1\033[0m"
    }
 
-   # Function to install a package
    function install_package() {
      if ! command -v "$1" &>/dev/null; then
        show_stage "Installing $1..."
@@ -49,7 +50,6 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
      fi
    }
 
-   # Step 1: Detect the operating system and package manager
    show_stage "Checking operating system..."
    if [ -f "/etc/debian_version" ]; then
      PACKAGE_MANAGER="apt-get"
@@ -57,11 +57,9 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    elif [ -f "/etc/os-release" ]; then
      . /etc/os-release
      if [[ "$ID" == "amzn" ]]; then
-       # Amazon Linux
        PACKAGE_MANAGER="yum"
        update_command="yum update -y"
      elif [[ "$ID_LIKE" == *"rhel"* ]] || [[ "$ID" == "centos" ]] || [[ "$ID" == "fedora" ]]; then
-       # RHEL-based distributions
        if command -v dnf &>/dev/null; then
          PACKAGE_MANAGER="dnf"
          update_command="dnf update -y"
@@ -78,28 +76,23 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
      exit 1
    fi
 
-   # Step 2: Update and install prerequisites
    show_stage "Updating package list and installing prerequisites..."
    eval "$update_command"
    install_package "wget" "wget"
    install_package "pip3" "python3-pip"
 
-   # Step 3: Download the .whl file
    WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/dob_cli-1.0.0-py3-none-any.whl"
    WHL_FILE="dob_cli-1.0.0-py3-none-any.whl"
 
    show_stage "Downloading the package..."
    wget -q "$WHL_URL" -O "$WHL_FILE"
 
-   # Step 4: Install the package
    show_stage "Installing the package..."
    pip3 install "$WHL_FILE"
 
-   # Step 5: Clean up
    show_stage "Cleaning up..."
    rm -f "$WHL_FILE"
 
-   # Final message
    show_stage "Installation complete!"
    ```
 
@@ -118,22 +111,20 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
 
 ### **🔹 macOS Installation**
 
+#### **✅ Fully Automated Installation**
+
 1. **Create the Installation Script**:
    Copy the following script and save it as `install_devops_bot_macos.sh` on your system:
 
    ```bash
    #!/bin/bash
 
-   # Exit immediately if any command fails
    set -e
 
-   # Function to display a stage
    function show_stage() {
-     echo -e "
-[1;32m>>> $1[0m"
+     echo -e "\n\033[1;32m>>> $1\033[0m"
    }
 
-   # Step 1: Check if Homebrew is installed
    if ! command -v brew &>/dev/null; then
      show_stage "Installing Homebrew..."
      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -141,7 +132,6 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
      show_stage "Homebrew is already installed."
    fi
 
-   # Step 2: Ensure Python3 and pip3 are installed
    if ! command -v python3 &>/dev/null; then
      show_stage "Installing Python3..."
      brew install python
@@ -156,22 +146,18 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
      show_stage "pip3 is already installed."
    fi
 
-   # Step 3: Download the .whl file
    WHL_URL="https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/dob_cli-1.0.0-cp39-cp39-macosx_11_0_universal2.whl"
    WHL_FILE="dob_cli-1.0.0-cp39-cp39-macosx_11_0_universal2.whl"
 
    show_stage "Downloading the package..."
    curl -L -o "$WHL_FILE" "$WHL_URL"
 
-   # Step 4: Install the package
    show_stage "Installing DOB CLI..."
    pip3 install "$WHL_FILE"
 
-   # Step 5: Clean up
    show_stage "Cleaning up..."
    rm -f "$WHL_FILE"
 
-   # Final message
    show_stage "Installation complete! You can now use 'dob'."
    ```
 
@@ -186,71 +172,125 @@ The **DOB CLI** provides an interface for executing remote commands securely on 
    dob --help
    ```
 
-1. **Download and Run the Installation Script**:
+#### **📌 Manual Installation**
+
+1. **Ensure prerequisites are installed:**
    ```bash
-   curl -L -o install_devops_bot_macos.sh https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/install_devops_bot_macos.sh
-   chmod +x install_devops_bot_macos.sh
-   ./install_devops_bot_macos.sh
+   brew install python3
+   ```
+2. **Download and install the package manually:**
+   ```bash
+   curl -L -o dob_cli-1.0.0-cp39-cp39-macosx_11_0_universal2.whl https://raw.githubusercontent.com/Devops-Bot-Official/dob-cli/master/dob_cli-1.0.0-cp39-cp39-macosx_11_0_universal2.whl
+   pip3 install dob_cli-1.0.0-cp39-cp39-macosx_11_0_universal2.whl
    ```
 
-2. **Verify Installation**:
-   ```bash
-   dob --help
-   ```
 
 ---
-
-# **Uninstalling DOB CLI**
-
-## Steps to Uninstall DOB CLI
-
-### 1. Uninstall the `dob-cli` Package
-
-```bash
-pip3 uninstall -y dob-cli
-```
-
-### 2. Remove Residual Files
-
-```bash
-sudo rm -rf /etc/dob-cli
-```
-
-### 3. Verify Cleanup
-
-```bash
-pip3 list | grep dob-cli
-```
-
----
-
-# **Usage**
+## Usage
 
 ### 1. Configuring DOB CLI
-
-```bash
+Before running any commands, you need to configure the DOB CLI with your persona credentials.
+bash
 dob config --persona-name <persona_name> \
            --token <token> \
            --private-key-path <path_to_private_key.pem> \
            --host-endpoint <host_url>
-```
+- **--persona-name:** Name of the persona.
+- **--token:** Token associated with the persona.
+- **--private-key-path:** Path to the private key file (PEM format).
+- **--host-endpoint:** URL of the host endpoint (e.g., `http://<host_ip>:<port>`).
+
+Example:
+bash
+dob config --persona-name alice_dev \
+           --token 54e8895b-659b-48ba-aab6-56162f3f1bc4 \
+           --private-key-path /root/alice_dev_private.pem \
+           --host-endpoint http://34.201.152.123:4102
+Once configured, the CLI will save the details in `~/.dobconfig.json`.
 
 ### 2. Running Commands
-
-```bash
+After configuration, you can forward any `dob` command to the remote host by simply using:
+bash
 dob <command> [options]
-```
-
 Examples:
-```bash
-dob vault show
-dob aws screenplay --file-path test.yaml
-```
 
----
+1. **Executing a simple command:**
+bash
+   dob vault show
+   
+This command will forward `dob vault show` to the remote host.
 
-# **📢 Support**
-If you encounter issues, open a ticket in our GitHub repository **[here](https://github.com/Devops-Bot-Official/dob-cli/issues)**.
+2. **Executing a command with a file:**
+bash
+   dob aws screenplay --file-path test.yaml
+   
+If the `--file-path` option is provided, the CLI will read the content of the file and send it inline to the remote host.
 
-🚀 **Enjoy using DOB CLI!**
+### 3. Error Handling
+If a command fails, the CLI will display an error message indicating the cause. Ensure that:
+- The host endpoint is reachable.
+- The provided token and private key are valid.
+- The command syntax is correct.
 
+## How It Works
+
+1. **Configuration:**
+   The `dob config` command stores the persona details (name, token, private key, and host endpoint) in a local configuration file (`~/.dobconfig.json`).
+
+2. **Command Execution:**
+   When you run a command using `dob`, the CLI:
+   - Loads the configuration details.
+   - Signs the token using the private key.
+   - Prepares the command and any associated file content.
+   - Sends the command to the host endpoint using an HTTP POST request.
+
+3. **Host Processing:**
+   The host server validates the persona authentication using the provided token and signature. Upon successful authentication, it executes the forwarded command and returns the result.
+
+## Example Workflow
+
+1. **Configuring the CLI:**
+bash
+   dob config --persona-name alice_dev \
+              --token 54e8895b-659b-48ba-aab6-56162f3f1bc4 \
+              --private-key-path /root/alice_dev_private.pem \
+              --host-endpoint http://34.201.152.123:4102
+   
+2. **Running a command:**
+bash
+   dob vault show
+   
+Output:
+
+   Forwarding command to host: dob vault show
+   Files in the vault:
+   - token
+   
+3. **Executing a command with a screenplay file:**
+bash
+   dob aws screenplay --file-path ec2.yaml
+   
+Output:
+
+   Forwarding command to host: dob aws screenplay <inline_file>
+   Execution successful.
+   
+## Troubleshooting
+
+1. **Config file not found:**
+   If you encounter the error:
+
+   Error: Config file not found at /root/.dobconfig.json. Please run 'dob config' first.
+   
+Ensure that you have run the `dob config` command correctly and that the configuration file exists at the specified path.
+
+2. **Authentication failed:**
+   If authentication fails, check that:
+   - The token is valid.
+   - The private key matches the public key associated with the persona.
+
+3. **Command execution failed:**
+   Ensure that the command syntax is correct and that the remote host supports the specified command.
+
+## Conclusion
+The DOB CLI is a powerful tool for secure remote command execution using persona-based authentication. By following this guide, users can configure and use the CLI effectively for various tasks.
